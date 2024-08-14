@@ -4,6 +4,7 @@ namespace JsonToCSharp;
 
 public partial class Menu : Form
 {
+    private string DefaultFolderPath = @"C:\JsonToCSharpFiles\";
 
     public Menu()
     {
@@ -25,9 +26,11 @@ public partial class Menu : Form
 
     private void FromFileButton_Click(object sender, EventArgs e)
     {
+        Directory.CreateDirectory(DefaultFolderPath);
+
         openFileDialog1 = new OpenFileDialog();
-        openFileDialog1.InitialDirectory = @"E:\Downloads\";
-        openFileDialog1.DefaultExt = "json";
+        openFileDialog1.InitialDirectory = DefaultFolderPath;
+        openFileDialog1.Filter = "json files (*.json)|*.json";
         openFileDialog1.Multiselect = false;
 
         if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -38,8 +41,8 @@ public partial class Menu : Form
 
     private void SaveButton_Click(object sender, EventArgs e)
     {
-        File.WriteAllText(Path.Combine(@"E:\Downloads\", "Template.cs"), CSharpTextBox.Text);
+        File.WriteAllText(Path.Combine(DefaultFolderPath, "Template.cs"), CSharpTextBox.Text);
 
-        MessageBox.Show("Done");
+        MessageBox.Show($"The file 'Template.cs' was successfully saved to the '{DefaultFolderPath}' folder.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 }
